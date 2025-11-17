@@ -7,7 +7,7 @@ public class PessoaController {
     private PessoaDAO dao;
 
     public PessoaController() {
-        this.dao = new PessoaDAO();
+        this.dao = new PessoaDAO(null);
     }
 
     public void cadastrarPessoa(Pessoa pessoa){

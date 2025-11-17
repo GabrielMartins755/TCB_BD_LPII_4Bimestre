@@ -1,4 +1,4 @@
-package br.edu.ifpr.agenda.view;
+/*package br.edu.ifpr.agenda.view;
 
 import br.edu.ifpr.agenda.controller.PessoaController;
 import br.edu.ifpr.agenda.model.AgendaEventos;
@@ -17,9 +17,9 @@ public class Main {
 
             // Cadastra o contato
             controller.cadastrarContato(contato);
-        }*/
+        }
         
     }
     
 }
-}
+}*/

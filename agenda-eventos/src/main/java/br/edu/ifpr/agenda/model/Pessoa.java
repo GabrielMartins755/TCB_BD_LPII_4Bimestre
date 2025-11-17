@@ -8,7 +8,13 @@ public class Pessoa {
     private String telefone;
     private String email;
     private Evento evento;
-    
+    private int idPessoa;
+    public int getIdPessoa() {
+        return idPessoa;
+    }
+    public void setIdPessoa(int idPessoa) {
+        this.idPessoa = idPessoa;
+    }    
     public Pessoa() {
     }
     public Evento getEvento() {
