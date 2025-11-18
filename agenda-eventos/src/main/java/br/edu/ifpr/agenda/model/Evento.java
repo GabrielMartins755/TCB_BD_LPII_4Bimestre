@@ -81,4 +81,9 @@ public class Evento {
     public void setConvidados(List<Pessoa> convidados) {
         this.convidados = convidados;
     }
+
+    public void cadastrarEvento(Evento evento) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'cadastrarEvento'");
+    }
 }

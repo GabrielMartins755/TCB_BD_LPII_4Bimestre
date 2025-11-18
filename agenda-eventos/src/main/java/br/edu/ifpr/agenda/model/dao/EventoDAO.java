@@ -26,17 +26,17 @@ public class EventoDAO {
     }
 
    //inserir evento
-    public int inserir(Evento e) throws SQLException {
+    public int inserir(EventoDAO e) throws SQLException {
         String sql = "INSERT INTO evento (nome_evento, data_evento, hora_evento, local_evento, qtd_max_pessoas) " +
                 "VALUES (?, ?, ?, ?, ?)";
 
         PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
         ps.setString(1, e.getNomeEvento());
-        ps.setDate(2, Date.valueOf(e.getData().toLocalDate()));
-        ps.setTime(3, Time.valueOf(e.getData().toLocalTime()));
-        ps.setString(4, e.getLocal());
-        ps.setInt(5, e.getQtdMaxPessoas());
+        ps.setString(2, e.getLocal());
+        ps.setInt(3, e.getQtdMaxPessoas());
+        ps.setDate(4, Date.valueOf(e.getData().toLocalDate()));
+        ps.setTime(5, Time.valueOf(e.getData().toLocalTime()));
 
         ps.executeUpdate();
 
@@ -49,7 +49,7 @@ public class EventoDAO {
     }
 
    //atualiza evento
-    public void atualizar(Evento e, int idEvento) throws SQLException {
+    public void atualizar(EventoDAO e, int idEvento) throws SQLException {
 
         String sql = "UPDATE evento SET nome_evento=?, data_evento=?, hora_evento=?, local_evento=?, qtd_max_pessoas=? " +
                 "WHERE id_evento=?";
@@ -67,7 +67,7 @@ public class EventoDAO {
     }
 
     //busca o evento apartir do id
-    public Evento buscarPorId(int idEvento) throws SQLException {
+    public EventoDAO buscarPorId(int idEvento) throws SQLException {
 
         String sql = "SELECT * FROM evento WHERE id_evento=?";
         PreparedStatement ps = con.prepareStatement(sql);
@@ -76,7 +76,7 @@ public class EventoDAO {
         ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
-            Evento e = new Evento();
+            EventoDAO e = new EventoDAO();
 
             LocalDate data = rs.getDate("data_evento").toLocalDate();
             LocalTime hora = rs.getTime("hora_evento").toLocalTime();
@@ -100,8 +100,8 @@ public class EventoDAO {
     }
 
    //listar todos os eventos
-    public List<Evento> listarTodos() throws SQLException {
-        List<Evento> eventos = new ArrayList<>();
+    public List<EventoDAO> listarTodos() throws SQLException {
+        List<EventoDAO> eventos = new ArrayList<>();
 
         String sql = "SELECT * FROM evento";
         PreparedStatement ps = con.prepareStatement(sql);
@@ -109,7 +109,7 @@ public class EventoDAO {
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
-            Evento e = new Evento();
+            EventoDAO e = new EventoDAO(con);
 
             LocalDate data = rs.getDate("data_evento").toLocalDate();
             LocalTime hora = rs.getTime("hora_evento").toLocalTime();
