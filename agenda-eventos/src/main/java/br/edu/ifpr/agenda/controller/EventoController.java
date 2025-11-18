@@ -1,13 +1,11 @@
 package br.edu.ifpr.agenda.controller;
 
-public class EventoController {
-    
-}
-/*package br.edu.ifpr.agenda.controller;
-
-import br.edu.ifpr.agenda.dao.*;
 import br.edu.ifpr.agenda.model.Evento;
 import br.edu.ifpr.agenda.model.Pessoa;
+import br.edu.ifpr.agenda.model.dao.ConnectionFactory;
+import br.edu.ifpr.agenda.model.dao.ConvidadoDAO;
+import br.edu.ifpr.agenda.model.dao.EventoDAO;
+import br.edu.ifpr.agenda.model.dao.FuncionarioDAO;
 import br.edu.ifpr.agenda.model.Funcionario;
 
 import java.sql.Connection;
@@ -121,4 +119,3 @@ public class EventoController {
         return null;
     }
 }
- */
