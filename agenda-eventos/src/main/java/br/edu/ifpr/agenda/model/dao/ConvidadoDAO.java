@@ -1,11 +1,14 @@
 package br.edu.ifpr.agenda.model.dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConvidadoDAO {
-
     private Connection con;
 
     public ConvidadoDAO(Connection con) {

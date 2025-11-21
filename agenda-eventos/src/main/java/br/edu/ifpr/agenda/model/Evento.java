@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Evento {
+    private int idEvento;
     private LocalDateTime data;
     private String local;
     private String nomeEvento;
@@ -85,5 +86,13 @@ public class Evento {
     public void cadastrarEvento(Evento evento) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'cadastrarEvento'");
+    }
+
+    public int getIdEvento() {
+        return idEvento;
+    }
+
+    public void setIdEvento(int idEvento) {
+        this.idEvento = idEvento;
     }
 }
