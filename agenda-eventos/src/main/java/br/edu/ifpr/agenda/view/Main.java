@@ -18,15 +18,15 @@ public class Main {
             sc.nextLine();
 
             switch (opcao) {
-                case 1 -> cadastrarEvento();
-                case 2 -> adicionarConvidado();
-                case 3 -> buscarEvento();
-                case 4 -> inscreverPessoa();
-                case 5 -> listarEventos();
-                case 6 -> cancelarEvento();
-                case 7 -> removerPessoa();
-                case 8 -> System.out.println("Saindo...");
-                default -> System.out.println("Opção inválida!");
+               // case 1 -> cadastrarEvento();
+               // case 2 -> adicionarConvidado();
+                //case 3 -> buscarEvento();
+               // case 4 -> inscreverPessoa();
+                //case 5 -> listarEventos();
+                //case 6 -> cancelarEvento();
+                //case 7 -> removerPessoa();
+                //case 8 -> System.out.println("Saindo...");
+                //default -> System.out.println("Opção inválida!");
             }
 
             if (opcao != 8) {
