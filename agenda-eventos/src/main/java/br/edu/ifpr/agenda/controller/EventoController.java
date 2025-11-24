@@ -2,7 +2,9 @@ package br.edu.ifpr.agenda.controller;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import br.edu.ifpr.agenda.model.Evento;
@@ -18,7 +20,6 @@ public class EventoController {
     private EventoDAO eventoDAO;
     private ConvidadoDAO convidadoDAO;
     private FuncionarioDAO funcionarioDAO;
-    
 
     public EventoController() {
         Connection con = ConnectionFactory.getConnection();
@@ -28,19 +29,25 @@ public class EventoController {
     }
 
     public int cadastrarEvento(String nome, String data, String local, int max) {
-        LocalDateTime data1 = LocalDateTime.parse(data);
         try {
+            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            // Use LocalDate em vez de LocalDateTime se não precisar de hora
+            LocalDate dataHora = LocalDate.parse(data, formato);
+            
+            // Agora, converta para LocalDateTime com uma hora padrão (00:00)
+            LocalDateTime dataCompleta = dataHora.atStartOfDay();  // Isso define a hora como 00:00
+    
             Evento e = new Evento();
             e.setNomeEvento(nome);
-            e.setData(data1);
+            e.setData(dataCompleta); // Assumindo que a data é do tipo LocalDateTime
             e.setLocal(local);
             e.setQtdMaxPessoas(max);
-            
+    
             return eventoDAO.inserir(e);
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             System.out.println("Erro ao criar evento: " + ex.getMessage());
+            return -1;
         }
-        return -1;
     }
     
     public void adicionarConvidado(int idEvento, int idPessoa) {
@@ -51,14 +58,28 @@ public class EventoController {
             System.out.println("Erro ao adicionar convidado: " + e.getMessage());
         }
     }
-    
+
+    public void removerPessoa(int idEvento, int idPessoa) {
+        try {
+            boolean removido = eventoDAO.removerPessoa(idEvento, idPessoa);
+
+            if (removido) {
+                System.out.println("Pessoa removida do evento!");
+            } else {
+                System.out.println("Pessoa não estava inscrita no evento.");
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao remover pessoa: " + e.getMessage());
+        }
+    }
+
     public Evento buscarEvento(int id) {
         try {
             return eventoDAO.buscarPorId(id);
         } catch (Exception ex) {
             System.out.println("Erro ao buscar evento: " + ex.getMessage());
+            return null;
         }
-        return null;
     }
 
     public List<Evento> listarEventos() {
@@ -66,8 +87,8 @@ public class EventoController {
             return eventoDAO.listarTodos();
         } catch (Exception e) {
             System.out.println("Erro ao listar eventos: " + e.getMessage());
+            return null;
         }
-        return null;
     }
 
     public void atualizarEvento(int id, Evento eventoAtualizado) {
@@ -86,21 +107,6 @@ public class EventoController {
         }
     }
 
-    public static void removerPessoa(int id, String nome) {
-        try {
-            boolean removido = eventoDAO.removerPessoa(id, nome);
-
-            if (removido) {
-                System.out.println("Pessoa removida do evento com sucesso!");
-            } else {
-                System.out.println("Pessoa não encontrada ou não está inscrita no evento.");
-            }
-        } catch (Exception e) {
-            
-        }
-    }
-
-
     public void adicionarFuncionario(int idEvento, int idFuncionario) {
         try {
             eventoDAO.adicionarFuncionario(idEvento, idFuncionario);
@@ -114,8 +120,8 @@ public class EventoController {
             return eventoDAO.buscarConvidadosDoEvento(idEvento);
         } catch (Exception e) {
             System.out.println("Erro ao listar convidados: " + e.getMessage());
+            return null;
         }
-        return null;
     }
 
     public List<Funcionario> listarFuncionarios(int idEvento) {
@@ -123,7 +129,7 @@ public class EventoController {
             return eventoDAO.buscarFuncionariosDoEvento(idEvento);
         } catch (Exception e) {
             System.out.println("Erro ao listar funcionários: " + e.getMessage());
+            return null;
         }
-        return null;
     }
 }

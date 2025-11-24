@@ -18,15 +18,15 @@ public class Main {
             sc.nextLine();
 
             switch (opcao) {
-               // case 1 -> cadastrarEvento();
-               // case 2 -> adicionarConvidado();
-                //case 3 -> buscarEvento();
-               // case 4 -> inscreverPessoa();
-                //case 5 -> listarEventos();
-                //case 6 -> cancelarEvento();
-                //case 7 -> removerPessoa();
-                //case 8 -> System.out.println("Saindo...");
-                //default -> System.out.println("Opção inválida!");
+                case 1 -> cadastrarEvento();
+               case 2 -> adicionarConvidado();
+                case 3 -> buscarEvento();
+               case 4 -> inscreverPessoa();
+                case 5 -> listarEventos();
+                case 6 -> cancelarEvento();
+                case 7 -> removerPessoa();
+                case 8 -> System.out.println("Saindo...");
+                default -> System.out.println("Opção inválida!");
             }
 
             if (opcao != 8) {
@@ -54,7 +54,7 @@ public class Main {
         System.out.print("Nome do evento: ");
         String nome = sc.nextLine();
 
-        System.out.print("Data (AAAA-MM-DD): ");
+        System.out.print("Data (DD-MM-AAAA): ");
         String data = sc.nextLine();
 
         System.out.print("Local: ");
@@ -71,10 +71,10 @@ public class Main {
         int id = sc.nextInt();
         sc.nextLine();
 
-        System.out.print("Nome do convidado: ");
-        String nomeConvidado = sc.nextLine();
+        System.out.print("ID do convidado: ");
+        int idNEgo = sc.nextInt();
 
-        controller.adicionarConvidado(id, nomeConvidado);
+        controller.adicionarConvidado(id, idNEgo);
     }
 
     public static void buscarEvento() {
@@ -95,9 +95,9 @@ public class Main {
         sc.nextLine();
 
         System.out.print("Nome da pessoa: ");
-        String nomePessoa = sc.nextLine();
+        int idPessoa = sc.nextInt();
 
-        controller.inscreverPessoa(id, nomePessoa);
+        controller.adicionarConvidado(id, idPessoa);
     }
 
 
@@ -106,7 +106,7 @@ public class Main {
         int id = sc.nextInt();
         sc.nextLine();
 
-        controller.cancelarEvento(id);
+        controller.removerEvento(id);
     }
 
     public static void removerPessoa() {
@@ -114,9 +114,9 @@ public class Main {
         int id = sc.nextInt();
         sc.nextLine();
 
-        System.out.print("Nome da pessoa a remover: ");
-        String nome = sc.nextLine();
+        System.out.print("ID da pessoa a remover: ");
+        int idNome = sc.nextInt();
 
-        controller.removerPessoa(id, nome);
+        controller.removerPessoa(id, idNome);
     }
 }
