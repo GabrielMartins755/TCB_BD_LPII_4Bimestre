@@ -18,8 +18,7 @@ import br.edu.ifpr.agenda.model.Funcionario;
 import br.edu.ifpr.agenda.model.Pessoa;
 
 public class EventoDAO {
-
-    private Connection con;
+     private Connection con;
 
     public EventoDAO(Connection con) {
         this.con = con;
