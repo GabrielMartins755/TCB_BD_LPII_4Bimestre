@@ -83,11 +83,6 @@ public class Evento {
         this.convidados = convidados;
     }
 
-    public void cadastrarEvento(Evento evento) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cadastrarEvento'");
-    }
-
     public int getIdEvento() {
         return idEvento;
     }

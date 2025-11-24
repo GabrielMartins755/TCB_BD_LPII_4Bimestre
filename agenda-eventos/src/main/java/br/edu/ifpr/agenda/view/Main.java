@@ -1,5 +1,6 @@
 package br.edu.ifpr.agenda.view;
 
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 import br.edu.ifpr.agenda.controller.EventoController;
@@ -17,15 +18,15 @@ public class Main {
             sc.nextLine();
 
             switch (opcao) {
-                //case 1 -> cadastrarEvento();
-                //case 2 -> adicionarConvidado();
-                //case 3 -> buscarEvento();
-                //case 4 -> inscreverPessoa();
-                //case 5 -> listarEventos();
-                //case 6 -> cancelarEvento();
-                //case 7 -> removerPessoa();
-                //case 8 -> System.out.println("Saindo...");
-                //default -> System.out.println("Opção inválida!");
+                case 1 -> cadastrarEvento();
+                case 2 -> adicionarConvidado();
+                case 3 -> buscarEvento();
+                case 4 -> inscreverPessoa();
+                case 5 -> listarEventos();
+                case 6 -> cancelarEvento();
+                case 7 -> removerPessoa();
+                case 8 -> System.out.println("Saindo...");
+                default -> System.out.println("Opção inválida!");
             }
 
             if (opcao != 8) {
@@ -49,5 +50,73 @@ public class Main {
         System.out.print("Escolha uma opção: ");
     }
 
+    public static void cadastrarEvento(){
+        System.out.print("Nome do evento: ");
+        String nome = sc.nextLine();
+
+        System.out.print("Data (AAAA-MM-DD): ");
+        String data = sc.nextLine();
+
+        System.out.print("Local: ");
+        String local = sc.nextLine();
+
+        System.out.println("Quantidade mázima de pessoas: ");
+        int qtdPessoas = sc.nextInt();
+
+        controller.cadastrarEvento(nome, data, local, qtdPessoas);
+    }
+
+     public static void adicionarConvidado() {
+        System.out.print("ID do evento: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Nome do convidado: ");
+        String nomeConvidado = sc.nextLine();
+
+        controller.adicionarConvidado(id, nomeConvidado);
+    }
+
+    public static void buscarEvento() {
+        System.out.print("ID do evento: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        controller.buscarEvento(id);
+    }
     
+    public static void listarEventos() {
+        controller.listarEventos();
+    }
+
+    public static void inscreverPessoa() {
+        System.out.print("ID do evento: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Nome da pessoa: ");
+        String nomePessoa = sc.nextLine();
+
+        controller.inscreverPessoa(id, nomePessoa);
+    }
+
+
+    public static void cancelarEvento() {
+        System.out.print("ID do evento a cancelar: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        controller.cancelarEvento(id);
+    }
+
+    public static void removerPessoa() {
+        System.out.print("ID do evento: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Nome da pessoa a remover: ");
+        String nome = sc.nextLine();
+
+        controller.removerPessoa(id, nome);
+    }
 }

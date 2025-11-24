@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Convidado extends Pessoa {
     private int idConvidado;
+    
     private List<Pessoa> idPessoas;
     public int getIdConvidado() {
         return idConvidado;

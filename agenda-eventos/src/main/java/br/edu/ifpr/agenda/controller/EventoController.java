@@ -27,21 +27,31 @@ public class EventoController {
         funcionarioDAO = new FuncionarioDAO(con);
     }
 
-    public int criarEvento(String nome, LocalDateTime data, String local, int max) {
+    public int cadastrarEvento(String nome, String data, String local, int max) {
+        LocalDateTime data1 = LocalDateTime.parse(data);
         try {
             Evento e = new Evento();
             e.setNomeEvento(nome);
-            e.setData(data);
+            e.setData(data1);
             e.setLocal(local);
             e.setQtdMaxPessoas(max);
-
+            
             return eventoDAO.inserir(e);
         } catch (SQLException ex) {
             System.out.println("Erro ao criar evento: " + ex.getMessage());
         }
         return -1;
     }
-
+    
+    public void adicionarConvidado(int idEvento, int idPessoa) {
+        try {
+            int idConvidado = convidadoDAO.inserir(idPessoa);
+            eventoDAO.adicionarConvidado(idEvento, idConvidado);
+        } catch (Exception e) {
+            System.out.println("Erro ao adicionar convidado: " + e.getMessage());
+        }
+    }
+    
     public Evento buscarEvento(int id) {
         try {
             return eventoDAO.buscarPorId(id);
@@ -76,14 +86,20 @@ public class EventoController {
         }
     }
 
-    public void adicionarConvidado(int idEvento, int idPessoa) {
+    public static void removerPessoa(int id, String nome) {
         try {
-            int idConvidado = convidadoDAO.inserir(idPessoa);
-            eventoDAO.adicionarConvidado(idEvento, idConvidado);
+            boolean removido = eventoDAO.removerPessoa(id, nome);
+
+            if (removido) {
+                System.out.println("Pessoa removida do evento com sucesso!");
+            } else {
+                System.out.println("Pessoa não encontrada ou não está inscrita no evento.");
+            }
         } catch (Exception e) {
-            System.out.println("Erro ao adicionar convidado: " + e.getMessage());
+            
         }
     }
+
 
     public void adicionarFuncionario(int idEvento, int idFuncionario) {
         try {

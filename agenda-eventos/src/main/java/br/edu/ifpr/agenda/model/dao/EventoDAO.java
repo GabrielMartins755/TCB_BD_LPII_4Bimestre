@@ -18,13 +18,13 @@ import br.edu.ifpr.agenda.model.Funcionario;
 import br.edu.ifpr.agenda.model.Pessoa;
 
 public class EventoDAO {
-     private Connection con;
+    private Connection con;
 
     public EventoDAO(Connection con) {
         this.con = con;
     }
 
-    // inserir evento
+    // cadastra evento
     public int inserir(Evento e) throws SQLException {
         String sql = "INSERT INTO evento (nome_evento, data_evento, hora_evento, local_evento, qtd_max_pessoas) " +
                 "VALUES (?, ?, ?, ?, ?)";
@@ -121,7 +121,16 @@ public class EventoDAO {
         return eventos;
     }
 
-    // remover
+    // remover eventos
+    public void remover(int idEvento) throws SQLException {
+        String sql = "DELETE FROM evento WHERE id_evento=?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idEvento);
+            ps.executeUpdate();
+        }
+    }
+
+    // remover pessoas
     public void remover(int idEvento) throws SQLException {
         String sql = "DELETE FROM evento WHERE id_evento=?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
