@@ -1,6 +1,5 @@
 package br.edu.ifpr.agenda.view;
 
-import java.time.LocalDateTime;
 import java.util.Scanner;
 
 import br.edu.ifpr.agenda.controller.EventoController;
@@ -19,9 +18,9 @@ public class Main {
 
             switch (opcao) {
                 case 1 -> cadastrarEvento();
-               case 2 -> adicionarConvidado();
+                case 2 -> adicionarConvidado();
                 case 3 -> buscarEvento();
-               case 4 -> inscreverPessoa();
+                case 4 -> inscreverPessoa();
                 case 5 -> listarEventos();
                 case 6 -> cancelarEvento();
                 case 7 -> removerPessoa();
@@ -57,13 +56,16 @@ public class Main {
         System.out.print("Data (DD-MM-AAAA): ");
         String data = sc.nextLine();
 
+        System.out.print("Hora do evento: ");
+        String hora = sc.nextLine();
+
         System.out.print("Local: ");
         String local = sc.nextLine();
 
-        System.out.println("Quantidade mázima de pessoas: ");
+        System.out.print("Quantidade máxima de pessoas: ");
         int qtdPessoas = sc.nextInt();
 
-        controller.cadastrarEvento(nome, data, local, qtdPessoas);
+        controller.cadastrarEvento(nome, data, hora, local, qtdPessoas);
     }
 
      public static void adicionarConvidado() {
@@ -71,10 +73,10 @@ public class Main {
         int id = sc.nextInt();
         sc.nextLine();
 
-        System.out.print("ID do convidado: ");
-        int idNEgo = sc.nextInt();
+        System.out.print("Nome do convidado que deseja adicionar: ");
+        String nomeP = sc.nextLine();
 
-        controller.adicionarConvidado(id, idNEgo);
+        controller.adicionarConvidado(id, nomeP);
     }
 
     public static void buscarEvento() {
@@ -95,9 +97,9 @@ public class Main {
         sc.nextLine();
 
         System.out.print("Nome da pessoa: ");
-        int idPessoa = sc.nextInt();
+        String nomePessoa = sc.nextLine();
 
-        controller.adicionarConvidado(id, idPessoa);
+        controller.adicionarConvidado(id, nomePessoa);
     }
 
 

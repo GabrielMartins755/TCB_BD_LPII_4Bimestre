@@ -15,12 +15,11 @@ public class ConvidadoDAO {
         this.con = con;
     }
 
-    public int inserir(int idPessoa) throws SQLException {
-
-        String sql = "INSERT INTO convidado (id_pessoa) VALUES (?)";
+    public int inserirPessoa(String nomePessoa) throws SQLException {
+        String sql = "INSERT INTO pessoa (nome) VALUES (?)";
 
         PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        ps.setInt(1, idPessoa);
+        ps.setString(1, nomePessoa);
         ps.executeUpdate();
 
         ResultSet rs = ps.getGeneratedKeys();
@@ -28,6 +27,28 @@ public class ConvidadoDAO {
 
         return -1;
     }
+
+    private int inserirConvidado(int idPessoa) throws SQLException {
+        String sql = "INSERT INTO convidado (id_pessoa) VALUES (?)";
+
+        PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        ps.setInt(1, idPessoa);
+        ps.executeUpdate();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        if (rs.next()) {
+            return rs.getInt(1); // id_convidado
+        }
+
+        return -1;
+    }
+
+    // 3. Método usado pelo controller → retorna id_convidado
+    public int inserirID(String nomePessoa) throws SQLException {
+        int idPessoa = inserirPessoa(nomePessoa);
+        return inserirConvidado(idPessoa); // retorna id_convidado
+    }
+
 
     public List<Integer> listarTodosIds() throws SQLException {
         List<Integer> lista = new ArrayList<>();

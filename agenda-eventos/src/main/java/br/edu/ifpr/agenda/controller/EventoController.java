@@ -1,9 +1,9 @@
 package br.edu.ifpr.agenda.controller;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -28,31 +28,31 @@ public class EventoController {
         funcionarioDAO = new FuncionarioDAO(con);
     }
 
-    public int cadastrarEvento(String nome, String data, String local, int max) {
+    public int cadastrarEvento(String nome, String data, String hora, String local, int max) {
         try {
-            DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            // Use LocalDate em vez de LocalDateTime se não precisar de hora
-            LocalDate dataHora = LocalDate.parse(data, formato);
-            
-            // Agora, converta para LocalDateTime com uma hora padrão (00:00)
-            LocalDateTime dataCompleta = dataHora.atStartOfDay();  // Isso define a hora como 00:00
-    
+            DateTimeFormatter formatoData = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+            LocalDate dataConvertida = LocalDate.parse(data, formatoData);
+            LocalTime horaConvertida = LocalTime.parse(hora, formatoHora);
+            LocalDateTime dataCompleta = LocalDateTime.of(dataConvertida, horaConvertida);
+
             Evento e = new Evento();
             e.setNomeEvento(nome);
-            e.setData(dataCompleta); // Assumindo que a data é do tipo LocalDateTime
+            e.setData(dataCompleta);
+            e.setHora(horaConvertida); 
             e.setLocal(local);
             e.setQtdMaxPessoas(max);
-    
+
             return eventoDAO.inserir(e);
         } catch (Exception ex) {
             System.out.println("Erro ao criar evento: " + ex.getMessage());
             return -1;
         }
     }
-    
-    public void adicionarConvidado(int idEvento, int idPessoa) {
+
+    public void adicionarConvidado(int idEvento, String nomePessoa) {
         try {
-            int idConvidado = convidadoDAO.inserir(idPessoa);
+            int idConvidado = convidadoDAO.inserirPessoa(nomePessoa);
             eventoDAO.adicionarConvidado(idEvento, idConvidado);
         } catch (Exception e) {
             System.out.println("Erro ao adicionar convidado: " + e.getMessage());

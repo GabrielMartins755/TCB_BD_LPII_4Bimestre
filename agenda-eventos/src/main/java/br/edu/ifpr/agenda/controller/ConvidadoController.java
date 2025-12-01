@@ -3,8 +3,8 @@ package br.edu.ifpr.agenda.controller;
 import java.sql.Connection;
 import java.util.List;
 
-import br.edu.ifpr.agenda.model.dao.ConvidadoDAO;
 import br.edu.ifpr.agenda.model.dao.ConnectionFactory;
+import br.edu.ifpr.agenda.model.dao.ConvidadoDAO;
 
 public class ConvidadoController {
 
@@ -15,9 +15,9 @@ public class ConvidadoController {
         ConvidadoDAO = new ConvidadoDAO(con);
     }
 
-    public int cadastrarConvidado(int idPessoa) {
+    public int cadastrarConvidado(String nomePessoa) {
         try {
-            return ConvidadoDAO.inserir(idPessoa);
+            return ConvidadoDAO.inserirPessoa(nomePessoa);
         } catch (Exception e) {
             System.out.println("Erro ao cadastrar convidado: " + e.getMessage());
         }

@@ -1,12 +1,14 @@
 package br.edu.ifpr.agenda.model;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Evento {
     private int idEvento;
     private LocalDateTime data;
+    private LocalTime hora;
     private String local;
     private String nomeEvento;
     private int qtdMaxPessoas;
@@ -65,6 +67,14 @@ public class Evento {
 
     public void setData(LocalDateTime data) {
         this.data = data;
+    }
+
+    public LocalTime getHora() {
+        return hora;
+    }
+
+    public void setHora(LocalTime hora) {
+        this.hora = hora;
     }
 
     public String getLocal() {
