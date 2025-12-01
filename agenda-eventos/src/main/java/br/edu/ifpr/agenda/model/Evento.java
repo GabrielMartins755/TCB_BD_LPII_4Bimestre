@@ -29,6 +29,10 @@ public class Evento {
         }
     }
 
+    public String toString() {
+        return "ID: " + idEvento +" | Nome: " + nomeEvento ;
+    }
+
     public List<Funcionario> getFuncionarios() {
         return funcionarios;
     }

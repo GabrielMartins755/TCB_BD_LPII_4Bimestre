@@ -15,6 +15,9 @@ public class PessoaController {
             System.out.println("Nome não pode ser nulo");
             return;
         }
+        if (pessoa.getDtNascimento() == null || pessoa.getDtNascimento().toString().isEmpty()) {
+            System.out.println("Data de nascimento não pode ser nulo");
+        }
         if(pessoa.getCpf() == null  || pessoa.getCpf().isEmpty()){
             System.out.println("CPF não pode ser nulo");
             return;

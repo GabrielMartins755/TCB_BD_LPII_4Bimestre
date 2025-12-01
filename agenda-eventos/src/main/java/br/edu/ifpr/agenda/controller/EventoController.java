@@ -39,7 +39,7 @@ public class EventoController {
             Evento e = new Evento();
             e.setNomeEvento(nome);
             e.setData(dataCompleta);
-            e.setHora(horaConvertida); 
+            e.setHora(horaConvertida);
             e.setLocal(local);
             e.setQtdMaxPessoas(max);
 
@@ -73,21 +73,49 @@ public class EventoController {
         }
     }
 
-    public Evento buscarEvento(int id) {
+    public void buscarEvento(int id) {
         try {
-            return eventoDAO.buscarPorId(id);
+            Evento e = eventoDAO.buscarPorId(id);
+
+            if (e == null) {
+                System.out.println("Evento não encontrado!");
+                return;
+            }
+
+            System.out.println("\n=== Detalhes do evento ===");
+            System.out.println("ID: " + e.getIdEvento());
+            System.out.println("Nome: " + e.getNomeEvento());
+            System.out.println("Data: " + e.getData());
+            System.out.println("Hora: " + e.getHora());
+            System.out.println("Local: " + e.getLocal());
+            System.out.println("Máx. pessoas: " + e.getQtdMaxPessoas());
+
+            System.out.println("\nConvidados:");
+            e.getConvidados().forEach(c -> System.out.println("- " + c.getNome()));
+
+            System.out.println("\nFuncionários:");
+            e.getFuncionarios().forEach(f -> System.out.println("- " + f.getNome()));
+
         } catch (Exception ex) {
             System.out.println("Erro ao buscar evento: " + ex.getMessage());
-            return null;
         }
     }
 
-    public List<Evento> listarEventos() {
+    public void listarEventos() {
         try {
-            return eventoDAO.listarTodos();
+            List<Evento> eventos = eventoDAO.listarTodos();
+
+            if (eventos.isEmpty()) {
+                System.out.println("Nenhum evento encontrado.");
+            }
+
+            System.out.println("\n=== EVENTOS CADASTRADOS ===");
+            for (Evento e : eventos) {
+                System.out.println(e);
+            }
+
         } catch (Exception e) {
             System.out.println("Erro ao listar eventos: " + e.getMessage());
-            return null;
         }
     }
 

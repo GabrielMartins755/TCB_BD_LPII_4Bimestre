@@ -17,13 +17,24 @@ public class Main {
             sc.nextLine();
 
             switch (opcao) {
+                // funciona 
                 case 1 -> cadastrarEvento();
-                case 2 -> adicionarConvidado();
+                // funciona 
+                case 2 -> listarEventos();
+                // funciona 
                 case 3 -> buscarEvento();
+
+
+                //não funciona 
                 case 4 -> inscreverPessoa();
-                case 5 -> listarEventos();
+                //não funciona
+                case 5 -> adicionarConvidado();
+
+                // funciona
                 case 6 -> cancelarEvento();
+                //provavelmente esta funcionando
                 case 7 -> removerPessoa();
+                // funciona 
                 case 8 -> System.out.println("Saindo...");
                 default -> System.out.println("Opção inválida!");
             }
@@ -39,10 +50,10 @@ public class Main {
     public static void mostrarMenu() {
         System.out.println("\n=== MENU AGENDA ===");
         System.out.println("1. Cadastrar evento");
-        System.out.println("2. Adicionar convidados em evento");
+        System.out.println("2. Listar eventos");
         System.out.println("3. Buscar evento");
         System.out.println("4. Inscrever pessoa em evento");
-        System.out.println("5. Listar eventos");
+        System.out.println("5. Adicionar convidados em evento");
         System.out.println("6. Cancelar evento");
         System.out.println("7. Remover pessoa");
         System.out.println("8. Sair");
@@ -68,6 +79,9 @@ public class Main {
         controller.cadastrarEvento(nome, data, hora, local, qtdPessoas);
     }
 
+    public static void listarEventos() {
+        controller.listarEventos();
+    }
      public static void adicionarConvidado() {
         System.out.print("ID do evento: ");
         int id = sc.nextInt();
@@ -87,10 +101,6 @@ public class Main {
         controller.buscarEvento(id);
     }
     
-    public static void listarEventos() {
-        controller.listarEventos();
-    }
-
     public static void inscreverPessoa() {
         System.out.print("ID do evento: ");
         int id = sc.nextInt();

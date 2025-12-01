@@ -5,12 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-
-import br.edu.ifpr.agenda.model.Pessoa;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.edu.ifpr.agenda.model.Pessoa;
 
 public class PessoaDAO {
 
@@ -20,19 +18,15 @@ public class PessoaDAO {
         this.con = con;
     }
 
-    public int inserir(Pessoa p) throws SQLException {
-        String sql = """
-            INSERT INTO pessoa (nome, dt_nascimento, cpf, telefone, email)
-            VALUES (?, ?, ?, ?, ?)
-        """;
+     public int inserir(Pessoa p) throws SQLException {
+        String sql = "INSERT INTO pessoa (nome, dt_nascimento, cpf, telefone, email) VALUES (?, ? , ?, ?, ?)";
 
         PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, p.getNome());
-        ps.setDate(2, Date.valueOf(p.getDtNascimento()));
+        ps.setDate(2, java.sql.Date.valueOf(p.getDtNascimento()));
         ps.setString(3, p.getCpf());
         ps.setString(4, p.getTelefone());
         ps.setString(5, p.getEmail());
-
         ps.executeUpdate();
 
         ResultSet rs = ps.getGeneratedKeys();

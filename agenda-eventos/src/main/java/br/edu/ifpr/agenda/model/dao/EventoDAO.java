@@ -65,33 +65,35 @@ public class EventoDAO {
         }
     }
 
-    // buscar evento por id
     public Evento buscarPorId(int idEvento) throws SQLException {
-        String sql = "SELECT * FROM evento WHERE id_evento=?";
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, idEvento);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    Evento e = new Evento();
+    String sql = "SELECT * FROM evento WHERE id_evento=?";
+    try (PreparedStatement ps = con.prepareStatement(sql)) {
+        ps.setInt(1, idEvento);
+        
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                Evento e = new Evento();
 
-                    LocalDate data = rs.getDate("data_evento").toLocalDate();
-                    LocalTime hora = rs.getTime("hora_evento").toLocalTime();
+                LocalDate data = rs.getDate("data_evento").toLocalDate();
+                LocalTime hora = rs.getTime("hora_evento").toLocalTime();
 
-                    e.setIdEvento(idEvento);
-                    e.setNomeEvento(rs.getString("nome_evento"));
-                    e.setLocal(rs.getString("local_evento"));
-                    e.setQtdMaxPessoas(rs.getInt("qtd_max_pessoas"));
-                    e.setData(LocalDateTime.of(data, hora));
+                e.setIdEvento(idEvento);
+                e.setNomeEvento(rs.getString("nome_evento"));
+                e.setLocal(rs.getString("local_evento"));
+                e.setHora(hora);
+                e.setQtdMaxPessoas(rs.getInt("qtd_max_pessoas"));
+                e.setData(LocalDateTime.of(data, hora));
 
-                    e.setConvidados(buscarConvidadosDoEvento(idEvento));
-                    e.setFuncionarios(buscarFuncionariosDoEvento(idEvento));
+                e.setConvidados(buscarConvidadosDoEvento(idEvento));
+                e.setFuncionarios(buscarFuncionariosDoEvento(idEvento));
 
-                    return e;
-                }
+                return e;
             }
         }
-        return null;
     }
+    return null;
+}
+
 
     // listar eventos
     public List<Evento> listarTodos() throws SQLException {
@@ -99,11 +101,10 @@ public class EventoDAO {
 
         String sql = "SELECT * FROM evento";
         try (PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+            ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Evento e = new Evento();
-
                 LocalDate data = rs.getDate("data_evento").toLocalDate();
                 LocalTime hora = rs.getTime("hora_evento").toLocalTime();
 

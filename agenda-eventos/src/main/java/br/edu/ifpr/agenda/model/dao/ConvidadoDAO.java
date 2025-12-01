@@ -15,6 +15,7 @@ public class ConvidadoDAO {
         this.con = con;
     }
 
+    // 1 – Insere na tabela pessoa
     public int inserirPessoa(String nomePessoa) throws SQLException {
         String sql = "INSERT INTO pessoa (nome) VALUES (?)";
 
@@ -28,6 +29,7 @@ public class ConvidadoDAO {
         return -1;
     }
 
+    // 2 – Insere na tabela convidado
     private int inserirConvidado(int idPessoa) throws SQLException {
         String sql = "INSERT INTO convidado (id_pessoa) VALUES (?)";
 
@@ -43,12 +45,11 @@ public class ConvidadoDAO {
         return -1;
     }
 
-    // 3. Método usado pelo controller → retorna id_convidado
+    // 3 – Método único chamado pelo controller
     public int inserirID(String nomePessoa) throws SQLException {
         int idPessoa = inserirPessoa(nomePessoa);
-        return inserirConvidado(idPessoa); // retorna id_convidado
+        return inserirConvidado(idPessoa);
     }
-
 
     public List<Integer> listarTodosIds() throws SQLException {
         List<Integer> lista = new ArrayList<>();
@@ -57,7 +58,6 @@ public class ConvidadoDAO {
         PreparedStatement ps = con.prepareStatement(sql);
 
         ResultSet rs = ps.executeQuery();
-
         while (rs.next()) {
             lista.add(rs.getInt("id_convidado"));
         }
