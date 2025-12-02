@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConvidadoDAO {
-
     private Connection con;
 
     public ConvidadoDAO(Connection con) {

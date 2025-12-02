@@ -28,9 +28,10 @@ public class Main {
                 case 3 ->
                     buscarEvento();
 
-                //não funciona
+                // funciona 
                 case 4 ->
                     adicionarConvidado();
+
                 //não funciona 
                 case 5 ->
                     inscreverFuncionario();
@@ -38,7 +39,7 @@ public class Main {
                 // funciona
                 case 6 ->
                     cancelarEvento();
-                //provavelmente esta funcionando
+                // funciona 
                 case 7 ->
                     removerPessoa();
                 // funciona 
@@ -128,11 +129,32 @@ public class Main {
         int id = sc.nextInt();
         sc.nextLine();
 
-        System.out.print("ID do funcionário: ");
-        int idFuncionario = sc.nextInt();
+        System.out.print("Nome do funcionário: ");
+        String nomeFunc = sc.nextLine();
         sc.nextLine();
 
-        controller.adicionarFuncionario(id, idFuncionario);
+        System.out.print("Data de nascimento: ");
+        String dtNascimento = sc.nextLine();
+
+        System.out.print("CPF: ");
+        String cpf = sc.nextLine();
+
+        System.out.print("Telefone: ");
+        String telefone = sc.nextLine();
+
+        System.out.print("Email: ");
+        String email = sc.nextLine();
+
+        System.out.print("Função do funcionário: ");
+        String funcao = sc.nextLine();
+
+        System.out.print("Salário do funcionário: ");
+        double salario = sc.nextDouble();   
+
+        System.out.print("Número da conta do Banco: ");
+        int numBanco = sc.nextInt();    
+
+        controller.inscreverFuncionario(id, nomeFunc, dtNascimento, cpf, telefone, email, funcao, salario, numBanco);       
     }
 
     public static void cancelarEvento() {

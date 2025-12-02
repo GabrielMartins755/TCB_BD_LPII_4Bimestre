@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +33,7 @@ public class PessoaDAO {
         return -1;
     }
 
-    // ...existing code...
     public int inserirPessoa(String nome, String dtNascimento, String cpf, String telefone, String email) throws SQLException {
-        // Primeiro verifica se já existe pessoa com esse CPF
         String sqlBusca = "SELECT id_pessoa FROM pessoa WHERE cpf = ?";
         try (PreparedStatement psBusca = con.prepareStatement(sqlBusca)) {
             psBusca.setString(1, cpf);
@@ -44,11 +44,13 @@ public class PessoaDAO {
             }
         }
 
-        // Inserir nova pessoa
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate data = LocalDate.parse(dtNascimento, formatter);
+       
         String sql = "INSERT INTO pessoa (nome, dt_nascimento, cpf, telefone, email) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, nome);
-            ps.setString(2, dtNascimento);
+            ps.setString(2, data.toString());
             ps.setString(3, cpf);
             ps.setString(4, telefone);
             ps.setString(5, email);
@@ -64,7 +66,6 @@ public class PessoaDAO {
 
         return -1;
     }
-// ...existing code...
 
     public Pessoa buscarPorId(int idPessoa) throws SQLException {
         String sql = "SELECT * FROM pessoa WHERE id_pessoa=?";

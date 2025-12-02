@@ -17,13 +17,14 @@ import br.edu.ifpr.agenda.model.dao.FuncionarioDAO;
 import br.edu.ifpr.agenda.model.dao.PessoaDAO;
 
 public class EventoController {
-
+    private PessoaDAO pessoaDAO;
     private EventoDAO eventoDAO;
     private ConvidadoDAO convidadoDAO;
     private FuncionarioDAO funcionarioDAO;
 
     public EventoController() {
         Connection con = ConnectionFactory.getConnection();
+        pessoaDAO = new PessoaDAO(con);
         eventoDAO = new EventoDAO(con);
         convidadoDAO = new ConvidadoDAO(con);
         funcionarioDAO = new FuncionarioDAO(con);
@@ -51,9 +52,9 @@ public class EventoController {
         }
     }
 
-    public void adicionarConvidado(int idEvento, String nome, String dtNascimento, String cpf, String telefone, String email) {
+    public void adicionarConvidado(int idEvento, String nomeConv, String dtNascimento, String cpf, String telefone, String email) {
         try {
-            int idPessoa = convidadoDAO.inserirPessoa(nome, dtNascimento, cpf, telefone, email);
+            int idPessoa = pessoaDAO.inserirPessoa(nomeConv, dtNascimento, cpf, telefone, email);
             int idConvidado = convidadoDAO.inserirConvidado(idPessoa);
 
             eventoDAO.adicionarConvidado(idEvento, idConvidado);
@@ -61,6 +62,19 @@ public class EventoController {
             System.out.println("Convidado adicionado ao evento!");
         } catch (Exception e) {
             System.out.println("Erro ao adicionar convidado: " + e.getMessage());
+        }
+    }
+    
+    public void adicionarFuncionario(int idEvento, String nomeFunc, String dtNascimento, String cpf, String telefone, 
+                                                                                        String email, String funcao, 
+                                                                                        double salario, int numBanco) {
+        try {
+            int idPessoa = pessoaDAO.inserirPessoa(nomeFunc, dtNascimento, cpf, telefone, email);
+            int idFuncionario = funcionarioDAO.inserirFuncionario(idPessoa, funcao, numBanco, salario);
+
+            eventoDAO.adicionarFuncionario(idEvento, idFuncionario);
+        } catch (Exception e) {
+            System.out.println("Erro ao adicionar funcionário: " + e.getMessage());
         }
     }
 
@@ -77,7 +91,7 @@ public class EventoController {
             System.out.println("Erro ao remover pessoa: " + e.getMessage());
         }
     }
-
+    
     public void buscarEvento(int id) {
         try {
             Evento e = eventoDAO.buscarPorId(id);
@@ -140,13 +154,6 @@ public class EventoController {
         }
     }
 
-    public void adicionarFuncionario(int idEvento, int idFuncionario) {
-        try {
-            eventoDAO.adicionarFuncionario(idEvento, idFuncionario);
-        } catch (Exception e) {
-            System.out.println("Erro ao adicionar funcionário: " + e.getMessage());
-        }
-    }
 
     public List<Pessoa> listarConvidados(int idEvento) {
         try {
