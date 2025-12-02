@@ -18,22 +18,53 @@ public class PessoaDAO {
         this.con = con;
     }
 
-     public int inserir(Pessoa p) throws SQLException {
-        String sql = "INSERT INTO pessoa (nome, dt_nascimento, cpf, telefone, email) VALUES (?, ? , ?, ?, ?)";
+    public int buscarPessoaPorNome(String nome) throws SQLException {
+        String sql = "SELECT id_pessoa FROM pessoa WHERE nome = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, nome);
 
-        PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        ps.setString(1, p.getNome());
-        ps.setDate(2, java.sql.Date.valueOf(p.getDtNascimento()));
-        ps.setString(3, p.getCpf());
-        ps.setString(4, p.getTelefone());
-        ps.setString(5, p.getEmail());
-        ps.executeUpdate();
-
-        ResultSet rs = ps.getGeneratedKeys();
-        if (rs.next()) return rs.getInt(1);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("id_pessoa");
+        }
 
         return -1;
     }
+
+    // ...existing code...
+    public int inserirPessoa(String nome, String dtNascimento, String cpf, String telefone, String email) throws SQLException {
+        // Primeiro verifica se já existe pessoa com esse CPF
+        String sqlBusca = "SELECT id_pessoa FROM pessoa WHERE cpf = ?";
+        try (PreparedStatement psBusca = con.prepareStatement(sqlBusca)) {
+            psBusca.setString(1, cpf);
+            try (ResultSet rs = psBusca.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id_pessoa");
+                }
+            }
+        }
+
+        // Inserir nova pessoa
+        String sql = "INSERT INTO pessoa (nome, dt_nascimento, cpf, telefone, email) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, nome);
+            ps.setString(2, dtNascimento);
+            ps.setString(3, cpf);
+            ps.setString(4, telefone);
+            ps.setString(5, email);
+
+            ps.executeUpdate();
+
+            try (ResultSet rs2 = ps.getGeneratedKeys()) {
+                if (rs2.next()) {
+                    return rs2.getInt(1);
+                }
+            }
+        }
+
+        return -1;
+    }
+// ...existing code...
 
     public Pessoa buscarPorId(int idPessoa) throws SQLException {
         String sql = "SELECT * FROM pessoa WHERE id_pessoa=?";
@@ -83,5 +114,3 @@ public class PessoaDAO {
         throw new UnsupportedOperationException("Unimplemented method 'salvarPessoa'");
     }
 }
- 
-

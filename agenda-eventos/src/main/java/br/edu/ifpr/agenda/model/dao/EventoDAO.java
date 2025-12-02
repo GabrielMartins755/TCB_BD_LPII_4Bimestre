@@ -171,11 +171,10 @@ public boolean removerPessoa(int idEvento, int idPessoa) throws SQLException {
     // adicionar convidado em evento
     public void adicionarConvidado(int idEvento, int idConvidado) throws SQLException {
         String sql = "INSERT INTO convidado_evento (id_convidado, id_evento) VALUES (?, ?)";
-        try (PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, idConvidado);
-            ps.setInt(2, idEvento);
-            ps.executeUpdate();
-        }
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, idConvidado);
+        ps.setInt(2, idEvento);
+        ps.executeUpdate();
     }
 
     // buscar convidados

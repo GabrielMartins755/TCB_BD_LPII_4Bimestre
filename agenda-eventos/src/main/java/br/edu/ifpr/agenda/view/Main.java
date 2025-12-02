@@ -5,6 +5,7 @@ import java.util.Scanner;
 import br.edu.ifpr.agenda.controller.EventoController;
 
 public class Main {
+
     static Scanner sc = new Scanner(System.in);
     static EventoController controller = new EventoController();
 
@@ -18,25 +19,33 @@ public class Main {
 
             switch (opcao) {
                 // funciona 
-                case 1 -> cadastrarEvento();
+                case 1 ->
+                    cadastrarEvento();
                 // funciona 
-                case 2 -> listarEventos();
+                case 2 ->
+                    listarEventos();
                 // funciona 
-                case 3 -> buscarEvento();
+                case 3 ->
+                    buscarEvento();
 
-
-                //não funciona 
-                case 4 -> inscreverPessoa();
                 //não funciona
-                case 5 -> adicionarConvidado();
+                case 4 ->
+                    adicionarConvidado();
+                //não funciona 
+                case 5 ->
+                    inscreverFuncionario();
 
                 // funciona
-                case 6 -> cancelarEvento();
+                case 6 ->
+                    cancelarEvento();
                 //provavelmente esta funcionando
-                case 7 -> removerPessoa();
+                case 7 ->
+                    removerPessoa();
                 // funciona 
-                case 8 -> System.out.println("Saindo...");
-                default -> System.out.println("Opção inválida!");
+                case 8 ->
+                    System.out.println("Saindo...");
+                default ->
+                    System.out.println("Opção inválida!");
             }
 
             if (opcao != 8) {
@@ -52,15 +61,15 @@ public class Main {
         System.out.println("1. Cadastrar evento");
         System.out.println("2. Listar eventos");
         System.out.println("3. Buscar evento");
-        System.out.println("4. Inscrever pessoa em evento");
-        System.out.println("5. Adicionar convidados em evento");
+        System.out.println("4. Adicionar convidados em evento");
+        System.out.println("5. Inscrever funcionarios em evento");
         System.out.println("6. Cancelar evento");
         System.out.println("7. Remover pessoa");
         System.out.println("8. Sair");
         System.out.print("Escolha uma opção: ");
     }
 
-    public static void cadastrarEvento(){
+    public static void cadastrarEvento() {
         System.out.print("Nome do evento: ");
         String nome = sc.nextLine();
 
@@ -82,36 +91,49 @@ public class Main {
     public static void listarEventos() {
         controller.listarEventos();
     }
-     public static void adicionarConvidado() {
+
+    public static void adicionarConvidado() {
         System.out.print("ID do evento: ");
         int id = sc.nextInt();
         sc.nextLine();
 
-        System.out.print("Nome do convidado que deseja adicionar: ");
-        String nomeP = sc.nextLine();
+        System.out.print("Nome do convidado: ");
+        String nome = sc.nextLine();
 
-        controller.adicionarConvidado(id, nomeP);
+        System.out.print("Data de nascimento: ");
+        String dtNascimento = sc.nextLine();
+
+        System.out.print("CPF: ");
+        String cpf = sc.nextLine();
+
+        System.out.print("Telefone: ");
+        String telefone = sc.nextLine();
+
+        System.out.print("Email: ");
+        String email = sc.nextLine();
+
+        controller.adicionarConvidado(id, nome, dtNascimento, cpf, telefone, email);
     }
 
     public static void buscarEvento() {
         System.out.print("ID do evento: ");
         int id = sc.nextInt();
-        sc.nextLine();
+        sc.nextLine();  
 
         controller.buscarEvento(id);
     }
-    
-    public static void inscreverPessoa() {
+
+    public static void inscreverFuncionario() {
         System.out.print("ID do evento: ");
         int id = sc.nextInt();
         sc.nextLine();
 
-        System.out.print("Nome da pessoa: ");
-        String nomePessoa = sc.nextLine();
+        System.out.print("ID do funcionário: ");
+        int idFuncionario = sc.nextInt();
+        sc.nextLine();
 
-        controller.adicionarConvidado(id, nomePessoa);
+        controller.adicionarFuncionario(id, idFuncionario);
     }
-
 
     public static void cancelarEvento() {
         System.out.print("ID do evento a cancelar: ");

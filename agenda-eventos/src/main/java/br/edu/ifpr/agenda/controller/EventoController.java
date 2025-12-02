@@ -14,6 +14,7 @@ import br.edu.ifpr.agenda.model.dao.ConnectionFactory;
 import br.edu.ifpr.agenda.model.dao.ConvidadoDAO;
 import br.edu.ifpr.agenda.model.dao.EventoDAO;
 import br.edu.ifpr.agenda.model.dao.FuncionarioDAO;
+import br.edu.ifpr.agenda.model.dao.PessoaDAO;
 
 public class EventoController {
 
@@ -50,10 +51,14 @@ public class EventoController {
         }
     }
 
-    public void adicionarConvidado(int idEvento, String nomePessoa) {
+    public void adicionarConvidado(int idEvento, String nome, String dtNascimento, String cpf, String telefone, String email) {
         try {
-            int idConvidado = convidadoDAO.inserirPessoa(nomePessoa);
+            int idPessoa = convidadoDAO.inserirPessoa(nome, dtNascimento, cpf, telefone, email);
+            int idConvidado = convidadoDAO.inserirConvidado(idPessoa);
+
             eventoDAO.adicionarConvidado(idEvento, idConvidado);
+
+            System.out.println("Convidado adicionado ao evento!");
         } catch (Exception e) {
             System.out.println("Erro ao adicionar convidado: " + e.getMessage());
         }
