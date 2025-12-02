@@ -13,7 +13,6 @@ import java.util.List;
 import br.edu.ifpr.agenda.model.Pessoa;
 
 public class PessoaDAO {
-
     private Connection con;
 
     public PessoaDAO(Connection con) {

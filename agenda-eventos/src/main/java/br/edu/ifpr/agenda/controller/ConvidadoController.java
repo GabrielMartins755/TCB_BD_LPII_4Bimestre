@@ -7,7 +7,6 @@ import br.edu.ifpr.agenda.model.dao.ConnectionFactory;
 import br.edu.ifpr.agenda.model.dao.ConvidadoDAO;
 
 public class ConvidadoController {
-
     private ConvidadoDAO ConvidadoDAO;
 
     public ConvidadoController() {
@@ -33,4 +32,3 @@ public class ConvidadoController {
         return null;
     }
 }
-

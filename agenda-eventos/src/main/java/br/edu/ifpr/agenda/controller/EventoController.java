@@ -46,49 +46,11 @@ public class EventoController {
             e.setHora(horaConvertida);
             e.setLocal(local);
             e.setQtdMaxPessoas(max);
-
+            
             return eventoDAO.inserir(e);
         } catch (Exception ex) {
             System.out.println("Erro ao criar evento: " + ex.getMessage());
             return -1;
-        }
-    }
-
-    public void adicionarConvidado(int idEvento, String nomeConv, String dtNascimento, String cpf, String telefone, String email) {
-        try {
-            int idPessoa = pessoaDAO.inserirPessoa(nomeConv, dtNascimento, cpf, telefone, email);
-            int idConvidado = convidadoDAO.inserirConvidado(idPessoa);
-
-            eventoDAO.adicionarConvidado(idEvento, idConvidado);
-
-            System.out.println("Convidado adicionado ao evento!");
-        } catch (Exception e) {
-            System.out.println("Erro ao adicionar convidado: " + e.getMessage());
-        }
-    }
-    
-    public void adicionarFuncionario(int idEvento, String nomeFunc, String dtNascimento, String cpf, String telefone, String email, String funcao, int salario, String numBanco) {
-        try {
-            int idPessoa = pessoaDAO.inserirPessoa(nomeFunc, dtNascimento, cpf, telefone, email);
-            int idFuncionario = funcionarioController.cadastrarFuncionario(idPessoa, funcao, numBanco, salario);
-
-            eventoDAO.adicionarFuncionario(idEvento, idFuncionario);
-        } catch (Exception e) {
-            System.out.println("Erro ao adicionar funcionário: " + e.getMessage());
-        }
-    }
-
-    public void removerPessoa(int idEvento, int idPessoa) {
-        try {
-            boolean removido = eventoDAO.removerPessoa(idEvento, idPessoa);
-
-            if (removido) {
-                System.out.println("Pessoa removida do evento!");
-            } else {
-                System.out.println("Pessoa não estava inscrita no evento.");
-            }
-        } catch (Exception e) {
-            System.out.println("Erro ao remover pessoa: " + e.getMessage());
         }
     }
     
@@ -153,8 +115,44 @@ public class EventoController {
             System.out.println("Erro ao remover evento: " + e.getMessage());
         }
     }
+    public void adicionarConvidado(int idEvento, String nomeConv, String dtNascimento, String cpf, String telefone, String email) {
+        try {
+            int idPessoa = pessoaDAO.inserirPessoa(nomeConv, dtNascimento, cpf, telefone, email);
+            int idConvidado = convidadoDAO.inserirConvidado(idPessoa);
+            
+            eventoDAO.adicionarConvidado(idEvento, idConvidado);
 
+            System.out.println("Convidado adicionado ao evento!");
+        } catch (Exception e) {
+            System.out.println("Erro ao adicionar convidado: " + e.getMessage());
+        }
+    }
+    
+    public void adicionarFuncionario(int idEvento, String nomeFunc, String dtNascimento, String cpf, String telefone, String email, String funcao, int salario, String numBanco) {
+        try {
+            int idPessoa = pessoaDAO.inserirPessoa(nomeFunc, dtNascimento, cpf, telefone, email);
+            int idFuncionario = funcionarioController.cadastrarFuncionario(idPessoa, funcao, numBanco, salario);
 
+            eventoDAO.adicionarFuncionario(idEvento, idFuncionario);
+        } catch (Exception e) {
+            System.out.println("Erro ao adicionar funcionário: " + e.getMessage());
+        }
+    }
+
+    public void removerPessoa(int idEvento, int idPessoa) {
+        try {
+            boolean removido = eventoDAO.removerPessoa(idEvento, idPessoa);
+
+            if (removido) {
+                System.out.println("Pessoa removida do evento!");
+            } else {
+                System.out.println("Pessoa não estava inscrita no evento.");
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao remover pessoa: " + e.getMessage());
+        }
+    }
+    
     public List<Pessoa> listarConvidados(int idEvento) {
         try {
             return eventoDAO.buscarConvidadosDoEvento(idEvento);

@@ -5,55 +5,35 @@ import java.util.Scanner;
 import br.edu.ifpr.agenda.controller.EventoController;
 
 public class Main {
-
     static Scanner sc = new Scanner(System.in);
     static EventoController controller = new EventoController();
 
     public static void main(String[] args) {
         int opcao;
-
+        
         do {
+            limparTela();
             mostrarMenu();
             opcao = sc.nextInt();
             sc.nextLine();
-
+            
             switch (opcao) {
-                // funciona 
-                case 1 ->
-                    cadastrarEvento();
-                // funciona 
-                case 2 ->
-                    listarEventos();
-                // funciona 
-                case 3 ->
-                    buscarEvento();
-
-                // funciona 
-                case 4 ->
-                    adicionarConvidado();
-
-                //não funciona 
-                case 5 ->
-                    inscreverFuncionario();
-
-                // funciona
-                case 6 ->
-                    cancelarEvento();
-                // funciona 
-                case 7 ->
-                    removerPessoa();
-                // funciona 
-                case 8 ->
-                    System.out.println("Saindo...");
-                default ->
-                    System.out.println("Opção inválida!");
+                case 1 -> cadastrarEvento();
+                case 2 -> listarEventos();
+                case 3 -> buscarEvento();
+                case 4 -> adicionarConvidado();
+                case 5 -> inscreverFuncionario();
+                case 6 -> removerPessoa();
+                case 7 -> cancelarEvento();
+                case 8 -> System.out.println("Saindo...");
+                default -> System.out.println("Opção inválida!");
             }
-
+            
             if (opcao != 8) {
                 System.out.println("\nPressione ENTER para continuar");
                 sc.nextLine();
             }
-
+            
         } while (opcao != 8);
     }
 
@@ -64,8 +44,8 @@ public class Main {
         System.out.println("3. Buscar evento");
         System.out.println("4. Adicionar convidados em evento");
         System.out.println("5. Inscrever funcionarios em evento");
-        System.out.println("6. Cancelar evento");
-        System.out.println("7. Remover pessoa");
+        System.out.println("6. Remover pessoa");
+        System.out.println("7. Cancelar evento");
         System.out.println("8. Sair");
         System.out.print("Escolha uma opção: ");
     }
@@ -88,9 +68,17 @@ public class Main {
 
         controller.cadastrarEvento(nome, data, hora, local, qtdPessoas);
     }
-
+    
     public static void listarEventos() {
         controller.listarEventos();
+    }
+    
+    public static void buscarEvento() {
+        System.out.print("ID do evento: ");
+        int id = sc.nextInt();
+        sc.nextLine();  
+
+        controller.buscarEvento(id);
     }
 
     public static void adicionarConvidado() {
@@ -116,13 +104,6 @@ public class Main {
         controller.adicionarConvidado(id, nome, dtNascimento, cpf, telefone, email);
     }
 
-    public static void buscarEvento() {
-        System.out.print("ID do evento: ");
-        int id = sc.nextInt();
-        sc.nextLine();  
-
-        controller.buscarEvento(id);
-    }
 
     public static void inscreverFuncionario() {
         System.out.print("ID do evento: ");
@@ -156,15 +137,7 @@ public class Main {
 
         controller.adicionarFuncionario(id, nomeFunc, dtNascimento, cpf, telefone, email, funcao, salario, numBanco);
     }
-
-    public static void cancelarEvento() {
-        System.out.print("ID do evento a cancelar: ");
-        int id = sc.nextInt();
-        sc.nextLine();
-
-        controller.removerEvento(id);
-    }
-
+    
     public static void removerPessoa() {
         System.out.print("ID do evento: ");
         int id = sc.nextInt();
@@ -172,7 +145,21 @@ public class Main {
 
         System.out.print("ID da pessoa a remover: ");
         int idNome = sc.nextInt();
-
+        
         controller.removerPessoa(id, idNome);
+    }
+
+    public static void cancelarEvento() {
+        System.out.print("ID do evento a cancelar: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+    
+        controller.removerEvento(id);
+    }
+
+    public static void limparTela() {
+        for (int i = 0; i < 50; i++) {
+            System.out.println();
+        }
     }
 }

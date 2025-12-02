@@ -18,14 +18,12 @@ import br.edu.ifpr.agenda.model.Funcionario;
 import br.edu.ifpr.agenda.model.Pessoa;
 
 public class EventoDAO {
-
     private Connection con;
 
     public EventoDAO(Connection con) {
         this.con = con;
     }
 
-    // inserir novo evento
     public int inserir(Evento e) throws SQLException {
         String sql = "INSERT INTO evento (nome_evento, data_evento, hora_evento, local_evento, qtd_max_pessoas) VALUES (?, ?, ?, ?, ?)";
 
@@ -47,7 +45,6 @@ public class EventoDAO {
         return -1;
     }
 
-    // atualizar evento
     public void atualizar(Evento e, int idEvento) throws SQLException {
         String sql = """
                 UPDATE evento 
@@ -95,7 +92,6 @@ public class EventoDAO {
         return null;
     }
 
-    // listar eventos
     public List<Evento> listarTodos() throws SQLException {
         List<Evento> eventos = new ArrayList<>();
 
@@ -120,7 +116,6 @@ public class EventoDAO {
         return eventos;
     }
 
-    // remover evento
     public void remover(int idEvento) throws SQLException {
         String sql = "DELETE FROM evento WHERE id_evento=?";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -129,10 +124,7 @@ public class EventoDAO {
         }
     }
 
-    //remover nego
     public boolean removerPessoa(int idEvento, int idPessoa) throws SQLException {
-
-        // 1 — Se for convidado, remover da tabela convidado_evento
         String sqlConvidado = """
         DELETE ce FROM convidado_evento ce
         JOIN convidado c ON ce.id_convidado = c.id_convidado
@@ -144,17 +136,14 @@ public class EventoDAO {
             ps.setInt(2, idPessoa);
 
             int rows = ps.executeUpdate();
-            if (rows > 0) {
-                return true; // já removeu aqui
+            if (rows > 0) return true; 
+        }
 
-                    }}
-
-        // 2 — Se for funcionário, remover da tabela funcionario_evento
         String sqlFuncionario = """
-        DELETE fe FROM funcionario_evento fe
-        JOIN funcionario f ON fe.id_funcionario = f.id_funcionario
-        WHERE fe.id_evento = ? AND f.id_pessoa = ?
-    """;
+            DELETE fe FROM funcionario_evento fe
+            JOIN funcionario f ON fe.id_funcionario = f.id_funcionario
+            WHERE fe.id_evento = ? AND f.id_pessoa = ?
+            """;
 
         try (PreparedStatement ps = con.prepareStatement(sqlFuncionario)) {
             ps.setInt(1, idEvento);
@@ -166,11 +155,9 @@ public class EventoDAO {
             }
         }
 
-        // 3 — Se chegou aqui significa que a pessoa NÃO estava no evento
         return false;
     }
 
-    // adicionar convidado em evento
     public void adicionarConvidado(int idEvento, int idConvidado) throws SQLException {
         String sql = "INSERT INTO convidado_evento (id_convidado, id_evento) VALUES (?, ?)";
         PreparedStatement ps = con.prepareStatement(sql);
@@ -179,7 +166,6 @@ public class EventoDAO {
         ps.executeUpdate();
     }
 
-    // buscar convidados
     public List<Pessoa> buscarConvidadosDoEvento(int idEvento) throws SQLException {
         List<Pessoa> convidados = new ArrayList<>();
 
@@ -208,7 +194,6 @@ public class EventoDAO {
         return convidados;
     }
 
-    // adicionar funcionário
     public void adicionarFuncionario(int idEvento, int idFuncionario) throws SQLException {
         String sql = "INSERT INTO funcionario_evento (id_funcionario, id_evento) VALUES (?, ?)";
         try (PreparedStatement ps = con.prepareStatement(sql)) {
@@ -218,7 +203,6 @@ public class EventoDAO {
         }
     }
 
-    // buscar funcionários
     public List<Funcionario> buscarFuncionariosDoEvento(int idEvento) throws SQLException {
         List<Funcionario> funcionarios = new ArrayList<>();
 

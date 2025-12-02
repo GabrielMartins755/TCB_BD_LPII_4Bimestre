@@ -8,7 +8,6 @@ import br.edu.ifpr.agenda.model.dao.ConnectionFactory;
 import br.edu.ifpr.agenda.model.dao.FuncionarioDAO;
 
 public class FuncionarioController {
-
     private FuncionarioDAO funcionarioDAO;
 
     public FuncionarioController() {

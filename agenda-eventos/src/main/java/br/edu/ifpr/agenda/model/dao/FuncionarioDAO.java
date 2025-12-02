@@ -11,7 +11,6 @@ import java.util.List;
 import br.edu.ifpr.agenda.model.Funcionario;
 
 public class FuncionarioDAO {
-
     private Connection con;
 
     public FuncionarioDAO(Connection con) {
