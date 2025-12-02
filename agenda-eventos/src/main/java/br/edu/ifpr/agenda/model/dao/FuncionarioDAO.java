@@ -5,9 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import br.edu.ifpr.agenda.model.Funcionario;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.edu.ifpr.agenda.model.Funcionario;
 
 public class FuncionarioDAO {
 

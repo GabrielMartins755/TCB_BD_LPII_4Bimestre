@@ -131,7 +131,6 @@ public class Main {
 
         System.out.print("Nome do funcionário: ");
         String nomeFunc = sc.nextLine();
-        sc.nextLine();
 
         System.out.print("Data de nascimento: ");
         String dtNascimento = sc.nextLine();
@@ -149,12 +148,13 @@ public class Main {
         String funcao = sc.nextLine();
 
         System.out.print("Salário do funcionário: ");
-        double salario = sc.nextDouble();   
+        int salario = sc.nextInt();   
 
         System.out.print("Número da conta do Banco: ");
-        int numBanco = sc.nextInt();    
+        String numBanco = sc.nextLine();    
+        sc.nextLine();
 
-        controller.inscreverFuncionario(id, nomeFunc, dtNascimento, cpf, telefone, email, funcao, salario, numBanco);       
+        controller.adicionarFuncionario(id, nomeFunc, dtNascimento, cpf, telefone, email, funcao, salario, numBanco);
     }
 
     public static void cancelarEvento() {

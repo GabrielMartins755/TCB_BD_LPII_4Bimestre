@@ -21,6 +21,7 @@ public class EventoController {
     private EventoDAO eventoDAO;
     private ConvidadoDAO convidadoDAO;
     private FuncionarioDAO funcionarioDAO;
+    private FuncionarioController funcionarioController;
 
     public EventoController() {
         Connection con = ConnectionFactory.getConnection();
@@ -28,6 +29,7 @@ public class EventoController {
         eventoDAO = new EventoDAO(con);
         convidadoDAO = new ConvidadoDAO(con);
         funcionarioDAO = new FuncionarioDAO(con);
+        funcionarioController = new FuncionarioController();
     }
 
     public int cadastrarEvento(String nome, String data, String hora, String local, int max) {
@@ -65,12 +67,10 @@ public class EventoController {
         }
     }
     
-    public void adicionarFuncionario(int idEvento, String nomeFunc, String dtNascimento, String cpf, String telefone, 
-                                                                                        String email, String funcao, 
-                                                                                        double salario, int numBanco) {
+    public void adicionarFuncionario(int idEvento, String nomeFunc, String dtNascimento, String cpf, String telefone, String email, String funcao, int salario, String numBanco) {
         try {
             int idPessoa = pessoaDAO.inserirPessoa(nomeFunc, dtNascimento, cpf, telefone, email);
-            int idFuncionario = funcionarioDAO.inserirFuncionario(idPessoa, funcao, numBanco, salario);
+            int idFuncionario = funcionarioController.cadastrarFuncionario(idPessoa, funcao, numBanco, salario);
 
             eventoDAO.adicionarFuncionario(idEvento, idFuncionario);
         } catch (Exception e) {

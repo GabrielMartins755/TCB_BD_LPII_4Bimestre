@@ -18,6 +18,7 @@ import br.edu.ifpr.agenda.model.Funcionario;
 import br.edu.ifpr.agenda.model.Pessoa;
 
 public class EventoDAO {
+
     private Connection con;
 
     public EventoDAO(Connection con) {
@@ -66,42 +67,40 @@ public class EventoDAO {
     }
 
     public Evento buscarPorId(int idEvento) throws SQLException {
-    String sql = "SELECT * FROM evento WHERE id_evento=?";
-    try (PreparedStatement ps = con.prepareStatement(sql)) {
-        ps.setInt(1, idEvento);
-        
-        try (ResultSet rs = ps.executeQuery()) {
-            if (rs.next()) {
-                Evento e = new Evento();
+        String sql = "SELECT * FROM evento WHERE id_evento=?";
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idEvento);
 
-                LocalDate data = rs.getDate("data_evento").toLocalDate();
-                LocalTime hora = rs.getTime("hora_evento").toLocalTime();
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Evento e = new Evento();
 
-                e.setIdEvento(idEvento);
-                e.setNomeEvento(rs.getString("nome_evento"));
-                e.setLocal(rs.getString("local_evento"));
-                e.setHora(hora);
-                e.setQtdMaxPessoas(rs.getInt("qtd_max_pessoas"));
-                e.setData(LocalDateTime.of(data, hora));
+                    LocalDate data = rs.getDate("data_evento").toLocalDate();
+                    LocalTime hora = rs.getTime("hora_evento").toLocalTime();
 
-                e.setConvidados(buscarConvidadosDoEvento(idEvento));
-                e.setFuncionarios(buscarFuncionariosDoEvento(idEvento));
+                    e.setIdEvento(idEvento);
+                    e.setNomeEvento(rs.getString("nome_evento"));
+                    e.setLocal(rs.getString("local_evento"));
+                    e.setHora(hora);
+                    e.setQtdMaxPessoas(rs.getInt("qtd_max_pessoas"));
+                    e.setData(LocalDateTime.of(data, hora));
 
-                return e;
+                    e.setConvidados(buscarConvidadosDoEvento(idEvento));
+                    e.setFuncionarios(buscarFuncionariosDoEvento(idEvento));
+
+                    return e;
+                }
             }
         }
+        return null;
     }
-    return null;
-}
-
 
     // listar eventos
     public List<Evento> listarTodos() throws SQLException {
         List<Evento> eventos = new ArrayList<>();
 
         String sql = "SELECT * FROM evento";
-        try (PreparedStatement ps = con.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Evento e = new Evento();
@@ -131,42 +130,45 @@ public class EventoDAO {
     }
 
     //remover nego
-public boolean removerPessoa(int idEvento, int idPessoa) throws SQLException {
+    public boolean removerPessoa(int idEvento, int idPessoa) throws SQLException {
 
-    // 1 — Se for convidado, remover da tabela convidado_evento
-    String sqlConvidado = """
+        // 1 — Se for convidado, remover da tabela convidado_evento
+        String sqlConvidado = """
         DELETE ce FROM convidado_evento ce
         JOIN convidado c ON ce.id_convidado = c.id_convidado
         WHERE ce.id_evento = ? AND c.id_pessoa = ?
     """;
 
-    try (PreparedStatement ps = con.prepareStatement(sqlConvidado)) {
-        ps.setInt(1, idEvento);
-        ps.setInt(2, idPessoa);
+        try (PreparedStatement ps = con.prepareStatement(sqlConvidado)) {
+            ps.setInt(1, idEvento);
+            ps.setInt(2, idPessoa);
 
-        int rows = ps.executeUpdate();
-        if (rows > 0) return true; // já removeu aqui
-    }
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                return true; // já removeu aqui
 
-    // 2 — Se for funcionário, remover da tabela funcionario_evento
-    String sqlFuncionario = """
+                    }}
+
+        // 2 — Se for funcionário, remover da tabela funcionario_evento
+        String sqlFuncionario = """
         DELETE fe FROM funcionario_evento fe
         JOIN funcionario f ON fe.id_funcionario = f.id_funcionario
         WHERE fe.id_evento = ? AND f.id_pessoa = ?
     """;
 
-    try (PreparedStatement ps = con.prepareStatement(sqlFuncionario)) {
-        ps.setInt(1, idEvento);
-        ps.setInt(2, idPessoa);
+        try (PreparedStatement ps = con.prepareStatement(sqlFuncionario)) {
+            ps.setInt(1, idEvento);
+            ps.setInt(2, idPessoa);
 
-        int rows = ps.executeUpdate();
-        if (rows > 0) return true;
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                return true;
+            }
+        }
+
+        // 3 — Se chegou aqui significa que a pessoa NÃO estava no evento
+        return false;
     }
-
-    // 3 — Se chegou aqui significa que a pessoa NÃO estava no evento
-    return false;
-}
-
 
     // adicionar convidado em evento
     public void adicionarConvidado(int idEvento, int idConvidado) throws SQLException {

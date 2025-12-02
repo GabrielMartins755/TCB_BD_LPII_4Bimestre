@@ -13,7 +13,7 @@ public class ConnectionFactory {
         try {
             if(conexao==null){
                 //jdbc:gdbd://ip do servidor do BD:porta/database
-                String url = "jdbc:mysql://localhost:3306/agendadeeventos";
+                String url = "jdbc:mysql://localhost:3306/agendadeevento";
                 String user= "root";
                 String password="xerecovisk69";
                 conexao = DriverManager.getConnection(url, user, password);

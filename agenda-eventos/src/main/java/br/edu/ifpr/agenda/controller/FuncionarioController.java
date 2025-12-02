@@ -1,11 +1,11 @@
 package br.edu.ifpr.agenda.controller;
 
-import br.edu.ifpr.agenda.model.dao.FuncionarioDAO;
-import br.edu.ifpr.agenda.model.Funcionario;
-import br.edu.ifpr.agenda.model.dao.ConnectionFactory;
-
 import java.sql.Connection;
 import java.util.List;
+
+import br.edu.ifpr.agenda.model.Funcionario;
+import br.edu.ifpr.agenda.model.dao.ConnectionFactory;
+import br.edu.ifpr.agenda.model.dao.FuncionarioDAO;
 
 public class FuncionarioController {
 
