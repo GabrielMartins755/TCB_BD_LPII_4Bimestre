@@ -17,6 +17,7 @@ import br.edu.ifpr.agenda.model.dao.FuncionarioDAO;
 import br.edu.ifpr.agenda.model.dao.PessoaDAO;
 
 public class EventoController {
+
     private PessoaDAO pessoaDAO;
     private EventoDAO eventoDAO;
     private ConvidadoDAO convidadoDAO;
@@ -46,14 +47,14 @@ public class EventoController {
             e.setHora(horaConvertida);
             e.setLocal(local);
             e.setQtdMaxPessoas(max);
-            
+
             return eventoDAO.inserir(e);
         } catch (Exception ex) {
             System.out.println("Erro ao criar evento: " + ex.getMessage());
             return -1;
         }
     }
-    
+
     public void buscarEvento(int id) {
         try {
             Evento e = eventoDAO.buscarPorId(id);
@@ -115,11 +116,12 @@ public class EventoController {
             System.out.println("Erro ao remover evento: " + e.getMessage());
         }
     }
+
     public void adicionarConvidado(int idEvento, String nomeConv, String dtNascimento, String cpf, String telefone, String email) {
         try {
             int idPessoa = pessoaDAO.inserirPessoa(nomeConv, dtNascimento, cpf, telefone, email);
             int idConvidado = convidadoDAO.inserirConvidado(idPessoa);
-            
+
             eventoDAO.adicionarConvidado(idEvento, idConvidado);
 
             System.out.println("Convidado adicionado ao evento!");
@@ -127,7 +129,7 @@ public class EventoController {
             System.out.println("Erro ao adicionar convidado: " + e.getMessage());
         }
     }
-    
+
     public void adicionarFuncionario(int idEvento, String nomeFunc, String dtNascimento, String cpf, String telefone, String email, String funcao, int salario, String numBanco) {
         try {
             int idPessoa = pessoaDAO.inserirPessoa(nomeFunc, dtNascimento, cpf, telefone, email);
@@ -139,9 +141,24 @@ public class EventoController {
         }
     }
 
-    public void removerPessoa(int idEvento, int idPessoa) {
+    public void removerPessoa(int idEvento, String nome) {
         try {
-            boolean removido = eventoDAO.removerPessoa(idEvento, idPessoa);
+            boolean removido = eventoDAO.removerPessoaPorNome(idEvento, nome);
+
+            if (removido) {
+                System.out.println("Pessoa removida do evento!");
+            } else {
+                System.out.println("Pessoa não estava inscrita no evento.");
+            }
+
+        } catch (Exception e) {
+            System.out.println("Erro ao remover pessoa: " + e.getMessage());
+        }
+    }
+
+    public void removerPessoaPorNome(int idEvento, String nome) {
+        try {
+            boolean removido = eventoDAO.removerPessoaPorNome(idEvento, nome);
 
             if (removido) {
                 System.out.println("Pessoa removida do evento!");
@@ -152,7 +169,7 @@ public class EventoController {
             System.out.println("Erro ao remover pessoa: " + e.getMessage());
         }
     }
-    
+
     public List<Pessoa> listarConvidados(int idEvento) {
         try {
             return eventoDAO.buscarConvidadosDoEvento(idEvento);

@@ -143,10 +143,10 @@ public class Main {
         int id = sc.nextInt();
         sc.nextLine();
 
-        System.out.print("ID da pessoa a remover: ");
-        int idNome = sc.nextInt();
+        System.out.print("Nome da pessoa a remover: ");
+        String nome = sc.nextLine();
         
-        controller.removerPessoa(id, idNome);
+        controller.removerPessoa(id, nome);
     }
 
     public static void cancelarEvento() {

@@ -18,6 +18,7 @@ import br.edu.ifpr.agenda.model.Funcionario;
 import br.edu.ifpr.agenda.model.Pessoa;
 
 public class EventoDAO {
+
     private Connection con;
 
     public EventoDAO(Connection con) {
@@ -134,24 +135,65 @@ public class EventoDAO {
         try (PreparedStatement ps = con.prepareStatement(sqlConvidado)) {
             ps.setInt(1, idEvento);
             ps.setInt(2, idPessoa);
-
-            int rows = ps.executeUpdate();
-            if (rows > 0) return true; 
+            if (ps.executeUpdate() > 0) {
+                return true;
+            }
         }
 
         String sqlFuncionario = """
-            DELETE fe FROM funcionario_evento fe
-            JOIN funcionario f ON fe.id_funcionario = f.id_funcionario
-            WHERE fe.id_evento = ? AND f.id_pessoa = ?
-            """;
+        DELETE fe FROM funcionario_evento fe
+        JOIN funcionario f ON fe.id_funcionario = f.id_funcionario
+        WHERE fe.id_evento = ? AND f.id_pessoa = ?
+    """;
 
         try (PreparedStatement ps = con.prepareStatement(sqlFuncionario)) {
             ps.setInt(1, idEvento);
             ps.setInt(2, idPessoa);
-
-            int rows = ps.executeUpdate();
-            if (rows > 0) {
+            if (ps.executeUpdate() > 0) {
                 return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean removerPessoaPorNome(int idEvento, String nomePessoa) throws SQLException {
+
+        String sqlConvidado = """
+        SELECT p.id_pessoa
+        FROM pessoa p
+        JOIN convidado c ON p.id_pessoa = c.id_pessoa
+        JOIN convidado_evento ce ON ce.id_convidado = c.id_convidado
+        WHERE ce.id_evento = ? AND p.nome = ?
+    """;
+
+        try (PreparedStatement ps = con.prepareStatement(sqlConvidado)) {
+            ps.setInt(1, idEvento);
+            ps.setString(2, nomePessoa);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int idPessoa = rs.getInt("id_pessoa");
+                return this.removerPessoa(idEvento, idPessoa); // CORRIGIDO
+            }
+        }
+
+        String sqlFuncionario = """
+        SELECT p.id_pessoa
+        FROM pessoa p
+        JOIN funcionario f ON p.id_pessoa = f.id_pessoa
+        JOIN funcionario_evento fe ON fe.id_funcionario = f.id_funcionario
+        WHERE fe.id_evento = ? AND p.nome = ?
+    """;
+
+        try (PreparedStatement ps = con.prepareStatement(sqlFuncionario)) {
+            ps.setInt(1, idEvento);
+            ps.setString(2, nomePessoa);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int idPessoa = rs.getInt("id_pessoa");
+                return this.removerPessoa(idEvento, idPessoa);
             }
         }
 
@@ -219,7 +261,7 @@ public class EventoDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Funcionario f = new Funcionario();
-                   // f.setIdFuncionario(rs.getInt("id_funcionario"));
+                    // f.setIdFuncionario(rs.getInt("id_funcionario"));
                     f.setFuncao(rs.getString("funcao"));
                     f.setSalario(rs.getInt("salario"));
                     f.setIdPessoa(rs.getInt("id_pessoa"));
