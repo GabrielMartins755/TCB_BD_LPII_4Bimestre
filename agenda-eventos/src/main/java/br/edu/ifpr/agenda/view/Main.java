@@ -12,7 +12,7 @@ public class Main {
         int opcao;
         
         do {
-            limparTela();
+           
             mostrarMenu();
             opcao = sc.nextInt();
             sc.nextLine();

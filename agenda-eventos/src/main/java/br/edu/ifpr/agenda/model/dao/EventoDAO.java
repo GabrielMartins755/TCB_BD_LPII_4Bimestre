@@ -219,7 +219,7 @@ public class EventoDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Funcionario f = new Funcionario();
-                    f.setIdFuncionario(rs.getInt("id_funcionario"));
+                   // f.setIdFuncionario(rs.getInt("id_funcionario"));
                     f.setFuncao(rs.getString("funcao"));
                     f.setSalario(rs.getInt("salario"));
                     f.setIdPessoa(rs.getInt("id_pessoa"));
